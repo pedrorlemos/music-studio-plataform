@@ -4,6 +4,8 @@ import com.pedrorlemos.music_studio.model.entities.Appointment;
 import com.pedrorlemos.music_studio.model.repositories.AppointmentRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AppointmentService {
 
@@ -22,6 +24,10 @@ public class AppointmentService {
         }
         appointmentRepository.save(newAppointment);
         return true;
+    }
+
+    public List<Appointment> findAll(){
+        return appointmentRepository.findAll();
     }
 
 
