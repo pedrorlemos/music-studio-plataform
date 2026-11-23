@@ -2,15 +2,31 @@ package com.pedrorlemos.music_studio.model.services;
 
 import com.pedrorlemos.music_studio.model.entities.Appointment;
 import com.pedrorlemos.music_studio.model.entities.AppointmentType;
+import com.pedrorlemos.music_studio.model.repositories.AppointmentRepository;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class AppointmentServiceTest {
+
+    @Mock
+    private AppointmentRepository appointmentRepository;
+
+    @InjectMocks
+    private AppointmentService appointmentService;
 
     private Appointment appointment(int startHour, int endHour) {
         return new Appointment(
@@ -21,35 +37,28 @@ class AppointmentServiceTest {
     }
 
     @Test
-    void addAppointmentAcceptsFirstAppointment() {
-        AppointmentService service = new AppointmentService();
+    void addAppointmentSavesWhenThereAreNoAppointments() {
+        Appointment newAppointment = appointment(10, 12);
+        when(appointmentRepository.findAll()).thenReturn(List.of());
 
-        assertTrue(service.addAppointment(appointment(10, 12)));
+        assertTrue(appointmentService.addAppointment(newAppointment));
+        verify(appointmentRepository).save(newAppointment);
     }
 
     @Test
-    void addAppointmentRejectsConflictingAppointment() {
-        AppointmentService service = new AppointmentService();
-        service.addAppointment(appointment(10, 12));
+    void addAppointmentRejectsAndDoesNotSaveConflictingAppointment() {
+        when(appointmentRepository.findAll()).thenReturn(List.of(appointment(10, 12)));
 
-        assertFalse(service.addAppointment(appointment(11, 13)));
+        assertFalse(appointmentService.addAppointment(appointment(11, 13)));
+        verify(appointmentRepository, never()).save(any());
     }
 
     @Test
-    void addAppointmentAcceptsAppointmentThatOnlyTouches() {
-        AppointmentService service = new AppointmentService();
-        service.addAppointment(appointment(10, 12));
+    void addAppointmentSavesAppointmentThatOnlyTouches() {
+        Appointment newAppointment = appointment(12, 14);
+        when(appointmentRepository.findAll()).thenReturn(List.of(appointment(10, 12)));
 
-        assertTrue(service.addAppointment(appointment(12, 14)));
-    }
-
-    @Test
-    void addAppointmentStoresOnlyAcceptedAppointments() {
-        AppointmentService service = new AppointmentService();
-        service.addAppointment(appointment(10, 12));
-        service.addAppointment(appointment(11, 13));
-        service.addAppointment(appointment(12, 14));
-
-        assertEquals(2, service.getAppointments().size());
+        assertTrue(appointmentService.addAppointment(newAppointment));
+        verify(appointmentRepository).save(newAppointment);
     }
 }
