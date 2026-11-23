@@ -1,13 +1,23 @@
 package com.pedrorlemos.music_studio.model.entities;
 
-import java.time.LocalDateTime;
+import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+@Entity
 public class Appointment {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Enumerated(EnumType.STRING)
     private AppointmentType appointmentType;
+
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private String description;
+
+    protected Appointment() {}
 
     public Appointment(AppointmentType appointmentType, LocalDateTime startTime, LocalDateTime endTime, String description) {
         validate(startTime, endTime);
@@ -20,6 +30,10 @@ public class Appointment {
 
     public AppointmentType getAppointmentType() {
         return appointmentType;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public void setAppointmentType(AppointmentType appointmentType) {
