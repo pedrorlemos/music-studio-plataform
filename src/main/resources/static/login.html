@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BASE 21 Studio | Login</title>
+    <link rel="icon" type="image/png" href="logo.png" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+</head>
+
+<body class="auth-body">
+    <main class="auth-wrapper">
+        <section class="login-card" aria-labelledby="loginTitle">
+            <div class="login-brand">
+                <img src="logo.png" alt="Logo BASE 21 Studio" class="login-logo" />
+                <span class="badge-highlight">Acesso Restrito</span>
+                <h1 id="loginTitle">BASE 21 Studio</h1>
+                <p>Entre com suas credenciais para acessar o painel</p>
+            </div>
+
+            <form id="loginForm" class="login-form">
+                <div class="modal-form-group">
+                    <label for="loginUsername">Usuário ou E-mail</label>
+                    <input type="text" id="loginUsername" name="username" class="modal-input"
+                        placeholder="Digite seu usuário ou e-mail" required autocomplete="username" />
+                </div>
+
+                <div class="modal-form-group">
+                    <label for="loginPassword">Senha</label>
+                    <div class="password-field-wrapper">
+                        <input type="password" id="loginPassword" name="password" class="modal-input"
+                            placeholder="Digite sua senha" required autocomplete="current-password" />
+                        <button type="button" class="btn-toggle-pass" id="btnTogglePass"
+                            title="Mostrar/ocultar senha">Mostrar</button>
+                    </div>
+                </div>
+
+                <div class="login-error-msg" id="loginErrorMsg"></div>
+
+                <button type="submit" class="btn-login-submit">
+                    Entrar no Sistema &#8594;
+                </button>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const loginUsername = document.getElementById('loginUsername');
+        const loginPassword = document.getElementById('loginPassword');
+        const btnTogglePass = document.getElementById('btnTogglePass');
+
+        btnTogglePass?.addEventListener('click', () => {
+            const isPass = loginPassword.type === 'password';
+            loginPassword.type = isPass ? 'text' : 'password';
+            btnTogglePass.textContent = isPass ? 'Ocultar' : 'Mostrar';
+        });
+
+        loginForm?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const userVal = loginUsername.value.trim();
+            if (!userVal) return;
+
+            sessionStorage.setItem('base21_user', userVal);
+            window.location.href = 'menu.html';
+        });
+    </script>
+</body>
+
+</html>
+

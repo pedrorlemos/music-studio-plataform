@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BASE 21 Studio | Menu Principal</title>
+    <link rel="icon" type="image/png" href="logo.png" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+</head>
+
+<body>
+    <!-- Cabeçalho do Menu Principal -->
+    <header class="topbar">
+        <div class="container topbar-inner">
+            <div class="brand">
+                <img src="logo.png" alt="Logo BASE 21 Studio" class="brand-logo" />
+                <div>
+                    <h1>BASE 21 Studio</h1>
+                    <p>Painel de Controle &amp; Gestão</p>
+                </div>
+            </div>
+
+            <div class="hub-user-actions">
+                <span class="hub-user-greeting" id="hubUserGreeting">Bem-vindo ao BASE 21</span>
+                <a href="login.html" class="btn-logout" id="btnLogout">Sair</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Conteúdo Simplificado do Menu: Botão Central -->
+    <main class="container hub-main">
+        <a href="index.html" class="hub-center-btn">Agendamento</a>
+    </main>
+
+    <script>
+        const savedUser = sessionStorage.getItem('base21_user');
+        const greetingEl = document.getElementById('hubUserGreeting');
+        if (savedUser && greetingEl) {
+            greetingEl.textContent = `Olá, ${savedUser}`;
+        }
+        document.getElementById('btnLogout')?.addEventListener('click', () => {
+            sessionStorage.removeItem('base21_user');
+        });
+    </script>
+</body>
+
+</html>
+

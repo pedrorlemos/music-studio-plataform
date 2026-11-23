@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BASE 21 | Agendamento</title>
+    <link rel="icon" type="image/png" href="logo.png" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+</head>
+
+<body>
+    <!-- Cabeçalho do Estúdio -->
+    <header class="topbar">
+        <div class="container topbar-inner">
+            <div class="brand">
+                <a href="menu.html" class="btn-back-menu" title="Voltar ao Menu Principal">&#8592; Menu</a>
+                <img src="logo.png" alt="Logo BASE 21 Studio" class="brand-logo" />
+                <div>
+                    <h1>BASE 21</h1>
+                    <p>Painel de Agendamento</p>
+                </div>
+            </div>
+
+            <!-- Filtro Global de Atividades (Camada Expansível) -->
+            <div class="filter-bar" id="filterDropdownContainer">
+                <button type="button" class="btn-open-filter" id="btnToggleFilter" aria-expanded="false"
+                    aria-controls="filterDropdownPanel">
+                    <span class="filter-btn-dot" id="activeFilterDot"></span>
+                    <span>Filtrar atividade: <strong id="activeFilterLabel">Todos</strong></span>
+                    <span class="filter-chevron">&#9662;</span>
+                </button>
+
+                <div class="filter-dropdown-panel" id="filterDropdownPanel" hidden>
+                    <div class="filter-panel-header">
+                        <span>Selecione a modalidade</span>
+                    </div>
+                    <div class="filter-pills" id="activityFilters">
+                        <button type="button" class="pill active" data-filter="todos">Todos</button>
+                        <button type="button" class="pill pill-canto" data-filter="canto">Aula de Canto</button>
+                        <button type="button" class="pill pill-guitarra" data-filter="guitarra">Aula de
+                            Guitarra</button>
+                        <button type="button" class="pill pill-violao" data-filter="violao">Aula de Violão</button>
+                        <button type="button" class="pill pill-teclado" data-filter="teclado">Aula de Teclado</button>
+                        <button type="button" class="pill pill-producao" data-filter="producao">Produção
+                            Musical</button>
+                        <button type="button" class="pill pill-baixo" data-filter="baixo">Aula de Baixo</button>
+                        <button type="button" class="pill pill-ensaio" data-filter="ensaio">Ensaio</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container main-content">
+        <!-- ==========================================
+         SEÇÃO 1: CALENDÁRIO SEMANAL GRANDE EM DESTAQUE
+         ========================================== -->
+        <section class="card-section weekly-section" aria-labelledby="weekly-title">
+            <div class="section-header">
+                <div class="section-title-group">
+                    <span class="badge-highlight">Visão em Destaque</span>
+                    <h2 id="weekly-title">Calendário Semanal</h2>
+                    <p class="section-subtitle">Acompanhe os horários agendados da semana selecionada</p>
+                </div>
+
+                <!-- Seletores de Mês e Semana do Calendário Semanal -->
+                <div class="controls-group">
+                    <div class="control-item">
+                        <label for="weeklyMonthSelect">Mês</label>
+                        <select id="weeklyMonthSelect" class="select-input">
+                            <option value="0">Janeiro 2026</option>
+                            <option value="1">Fevereiro 2026</option>
+                            <option value="2">Março 2026</option>
+                            <option value="3">Abril 2026</option>
+                            <option value="4">Maio 2026</option>
+                            <option value="5">Junho 2026</option>
+                            <option value="6">Julho 2026</option>
+                            <option value="7">Agosto 2026</option>
+                            <option value="8">Setembro 2026</option>
+                            <option value="9">Outubro 2026</option>
+                            <option value="10" selected>Novembro 2026</option>
+                            <option value="11">Dezembro 2026</option>
+                        </select>
+                    </div>
+
+                    <div class="control-item">
+                        <label for="weekNumberSelect">Semana em Destaque</label>
+                        <div class="week-selector-tabs" id="weekNumberSelect" role="tablist">
+                            <button type="button" class="week-tab" data-week="1">Semana 1</button>
+                            <button type="button" class="week-tab active" data-week="2">Semana 2</button>
+                            <button type="button" class="week-tab" data-week="3">Semana 3</button>
+                            <button type="button" class="week-tab" data-week="4">Semana 4</button>
+                            <button type="button" class="week-tab" data-week="5">Semana 5</button>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn-create-booking" id="btnCreateBookingSection">
+                        + Criar Agendamento
+                    </button>
+                </div>
+            </div>
+
+            <!-- Grade Semanal Grande (Sem agendamentos pré-definidos) -->
+            <div class="weekly-grid" id="weeklyGrid">
+                <!-- Segunda-feira -->
+                <div class="week-day-column empty-day">
+                    <div class="week-day-header">
+                        <span class="day-name">Segunda</span>
+                        <span class="day-number">09 Nov</span>
+                    </div>
+                    <div class="week-day-events">
+                        <div class="empty-slot-msg">Livre para agendamento</div>
+                    </div>
+                </div>
+
+                <!-- Terça-feira -->
+                <div class="week-day-column empty-day">
+                    <div class="week-day-header">
+                        <span class="day-name">Terça</span>
+                        <span class="day-number">10 Nov</span>
+                    </div>
+                    <div class="week-day-events">
+                        <div class="empty-slot-msg">Livre para agendamento</div>
+                    </div>
+                </div>
+
+                <!-- Quarta-feira -->
+                <div class="week-day-column empty-day">
+                    <div class="week-day-header">
+                        <span class="day-name">Quarta</span>
+                        <span class="day-number">11 Nov</span>
+                    </div>
+                    <div class="week-day-events">
+                        <div class="empty-slot-msg">Livre para agendamento</div>
+                    </div>
+                </div>
+
+                <!-- Quinta-feira -->
+                <div class="week-day-column empty-day">
+                    <div class="week-day-header">
+                        <span class="day-name">Quinta</span>
+                        <span class="day-number">12 Nov</span>
+                    </div>
+                    <div class="week-day-events">
+                        <div class="empty-slot-msg">Livre para agendamento</div>
+                    </div>
+                </div>
+
+                <!-- Sexta-feira -->
+                <div class="week-day-column empty-day">
+                    <div class="week-day-header">
+                        <span class="day-name">Sexta</span>
+                        <span class="day-number">13 Nov</span>
+                    </div>
+                    <div class="week-day-events">
+                        <div class="empty-slot-msg">Livre para agendamento</div>
+                    </div>
+                </div>
+
+                <!-- Sábado -->
+                <div class="week-day-column empty-day">
+                    <div class="week-day-header">
+                        <span class="day-name">Sábado</span>
+                        <span class="day-number">14 Nov</span>
+                    </div>
+                    <div class="week-day-events">
+                        <div class="empty-slot-msg">Livre para agendamento</div>
+                    </div>
+                </div>
+
+                <!-- Domingo -->
+                <div class="week-day-column empty-day">
+                    <div class="week-day-header">
+                        <span class="day-name">Domingo</span>
+                        <span class="day-number">15 Nov</span>
+                    </div>
+                    <div class="week-day-events">
+                        <div class="empty-slot-msg">Livre para agendamento</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+         SEÇÃO 2: CALENDÁRIO COMPLETO DO MÊS (DETALHADO)
+         ========================================== -->
+        <section class="card-section monthly-section" aria-labelledby="monthly-title">
+            <div class="section-header">
+                <div class="section-title-group">
+                    <span class="badge-secondary">Visão Geral</span>
+                    <h2 id="monthly-title">Calendário Mensal</h2>
+                    <p class="section-subtitle">Clique em qualquer semana abaixo para vizualiza-la no calendário semanal
+                    </p>
+                </div>
+
+                <!-- Controles do Calendário Mensal (Mês e Filtro) -->
+                <div class="controls-group">
+                    <div class="control-item">
+                        <label for="monthlyFilterSelect">Filtro de Modalidade</label>
+                        <select id="monthlyFilterSelect" class="select-input">
+                            <option value="todos">Todas as atividades</option>
+                            <option value="canto">Aula de Canto</option>
+                            <option value="guitarra">Aula de Guitarra</option>
+                            <option value="violao">Aula de Violão</option>
+                            <option value="teclado">Aula de Teclado</option>
+                            <option value="producao">Produção Musical</option>
+                            <option value="baixo">Aula de Baixo</option>
+                            <option value="ensaio">Ensaio</option>
+                        </select>
+                    </div>
+
+                    <div class="control-item">
+                        <label for="monthlyMonthSelect">Selecionar Mês</label>
+                        <div class="month-nav-group">
+                            <button type="button" class="btn-icon" id="prevMonthBtn"
+                                title="Mês anterior">&#8592;</button>
+                            <select id="monthlyMonthSelect" class="select-input">
+                                <option value="0">Janeiro 2026</option>
+                                <option value="1">Fevereiro 2026</option>
+                                <option value="2">Março 2026</option>
+                                <option value="3">Abril 2026</option>
+                                <option value="4">Maio 2026</option>
+                                <option value="5">Junho 2026</option>
+                                <option value="6">Julho 2026</option>
+                                <option value="7">Agosto 2026</option>
+                                <option value="8">Setembro 2026</option>
+                                <option value="9">Outubro 2026</option>
+                                <option value="10" selected>Novembro 2026</option>
+                                <option value="11">Dezembro 2026</option>
+                            </select>
+                            <button type="button" class="btn-icon" id="nextMonthBtn"
+                                title="Próximo mês">&#8594;</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Legenda de Cores -->
+            <div class="legend-bar">
+                <span class="legend-item"><i class="dot cat-canto"></i> Aula de Canto</span>
+                <span class="legend-item"><i class="dot cat-guitarra"></i> Aula de Guitarra</span>
+                <span class="legend-item"><i class="dot cat-violao"></i> Aula de Violão</span>
+                <span class="legend-item"><i class="dot cat-teclado"></i> Aula de Teclado</span>
+                <span class="legend-item"><i class="dot cat-producao"></i> Produção Musical</span>
+                <span class="legend-item"><i class="dot cat-baixo"></i> Aula de Baixo</span>
+                <span class="legend-item"><i class="dot cat-ensaio"></i> Ensaio</span>
+            </div>
+
+            <!-- Cabeçalho dos Dias do Mês -->
+            <div class="monthly-weekdays-header">
+                <div class="week-label-col">Semana</div>
+                <div>Segunda</div>
+                <div>Terça</div>
+                <div>Quarta</div>
+                <div>Quinta</div>
+                <div>Sexta</div>
+                <div>Sábado</div>
+                <div>Domingo</div>
+            </div>
+
+            <!-- Corpo do Calendário Mensal (Sem agendamentos pré-definidos) -->
+            <div class="monthly-grid-body" id="monthlyGridBody">
+                <!-- SEMANA 1 -->
+                <div class="month-week-row" data-week-row="1">
+                    <div class="week-indicator">
+                        <span class="week-num">Sem 1</span>
+                        <span class="week-range">02 - 08</span>
+                    </div>
+                    <div class="month-day-cell"><span class="cell-date">02</span>
+                        <div class="cell-events"></div>
+                    </div>
+                    <div class="month-day-cell"><span class="cell-date">03</span>
+                        <div class="cell-events"></div>
+                    </div>
+                    <div class="month-day-cell"><span class="cell-date">04</span>
+                        <div class="cell-events"></div>
+                    </div>
+                    <div class="month-day-cell"><span class="cell-date">05</span>
+                        <div class="cell-events"></div>
+                    </div>
+                    <div class="month-day-cell"><span class="cell-date">06</span>
+                        <div class="cell-events"></div>
+                    </div>
+                    <div class="month-day-cell"><span class="cell-date">07</span>
+                        <div class="cell-events"></div>
+                    </div>
+                    <div class="month-day-cell is-sunday"><span class="cell-date">08</span>
+                        <div class="cell-events"></div>
+                    </div>
+                </div>
+
+                <!-- SEMANA 2 -->
+                <div class="month-week-row highlighted-week" data-week-row="2">
+                    <div class="week-indicator">
+                        <span class="week-num">Sem 2</span>
+                        <span class="week-range">09 - 15</span>
+                    </div>
+                    <div class="month-day-cell"><span class="cell-date">09</span>
+                        <div class="cell-events"></div>
+                    </div>
+                    <div class="month-day-cell"><span class="cell-date">10</span>
+                        <div class="cell-events"></div>
+                    </div>
+                    <div class="month-day-cell"><span class="cell-date">11</span>
+                        <div class="cell-events"></div>
+                    </div>
+                    <div class="month-day-cell"><span class="cell-date">12</span>
+                        <div class="cell-events"></div>
+                    </div>
+                    <div class="month-day-cell"><span class="cell-date">13</span>
+                        <div class="cell-events"></div>
+                    </div>
+                    <div class="month-day-cell"><span class="cell-date">14</span>
+                        <div class="cell-events"></div>
+                    </div>
+                    <div class="month-day-cell is-sunday"><span class="cell-date">15</span>
+                        <div class="cell-events"></div>
+                    </div>
+                </div>
+
+                <!-- SEMANA 3 -->
+                <div class="month-week-row" data-week-row="3">
+                    <div class="week-indicator">
+                        <span class="week-num">Sem 3</span>
+                        <span class="week-range">16 - 22</span>
+                    </div>
+                    <div class="month-day-cell"><span class="cell-date">16</span>
+                        <div class="cell-events"></div>
+                    </div>
+                    <div class="month-day-cell"><span class="cell-date">17</span>
+                        <div class="cell-events"></div>
+                    </div>
+                    <div class="month-day-cell"><span class="cell-date">18</span>
+                        <div class="cell-events"></div>
+                    </div>
+                    <div class="month-day-cell"><span class="cell-date">19</span>
+                        <div class="cell-events"></div>
+                    </div>
+                    <div class="month-day-cell"><span class="cell-date">20</span>
+                        <div class="cell-events"></div>
+                    </div>
+                    <div class="month-day-cell"><span class="cell-date">21</span>
+                        <div class="cell-events"></div>
+                    </div>
+                    <div class="month-day-cell is-sunday"><span class="cell-date">22</span>
+                        <div class="cell-events"></div>
+                    </div>
+                </div>
+
+                <!-- SEMANA 4 -->
+                <div class="month-week-row" data-week-row="4">
+                    <div class="week-indicator">
+                        <span class="week-num">Sem 4</span>
+                        <span class="week-range">23 - 29</span>
+                    </div>
+                    <div class="month-day-cell"><span class="cell-date">23</span>
+                        <div class="cell-events"></div>
+                    </div>
+                    <div class="month-day-cell"><span class="cell-date">24</span>
+                        <div class="cell-events"></div>
+                    </div>
+                    <div class="month-day-cell"><span class="cell-date">25</span>
+                        <div class="cell-events"></div>
+                    </div>
+                    <div class="month-day-cell"><span class="cell-date">26</span>
+                        <div class="cell-events"></div>
+                    </div>
+                    <div class="month-day-cell"><span class="cell-date">27</span>
+                        <div class="cell-events"></div>
+                    </div>
+                    <div class="month-day-cell"><span class="cell-date">28</span>
+                        <div class="cell-events"></div>
+                    </div>
+                    <div class="month-day-cell is-sunday"><span class="cell-date">29</span>
+                        <div class="cell-events"></div>
+                    </div>
+                </div>
+
+                <!-- SEMANA 5 -->
+                <div class="month-week-row" data-week-row="5">
+                    <div class="week-indicator">
+                        <span class="week-num">Sem 5</span>
+                        <span class="week-range">30 - 06 Dez</span>
+                    </div>
+                    <div class="month-day-cell"><span class="cell-date">30</span>
+                        <div class="cell-events"></div>
+                    </div>
+                    <div class="month-day-cell is-muted"><span class="cell-date">01 Dez</span>
+                        <div class="cell-events"></div>
+                    </div>
+                    <div class="month-day-cell is-muted"><span class="cell-date">02 Dez</span>
+                        <div class="cell-events"></div>
+                    </div>
+                    <div class="month-day-cell is-muted"><span class="cell-date">03 Dez</span>
+                        <div class="cell-events"></div>
+                    </div>
+                    <div class="month-day-cell is-muted"><span class="cell-date">04 Dez</span>
+                        <div class="cell-events"></div>
+                    </div>
+                    <div class="month-day-cell is-muted"><span class="cell-date">05 Dez</span>
+                        <div class="cell-events"></div>
+                    </div>
+                    <div class="month-day-cell is-muted is-sunday"><span class="cell-date">06 Dez</span>
+                        <div class="cell-events"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
